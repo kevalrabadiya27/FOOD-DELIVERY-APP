@@ -7,7 +7,7 @@ export default function MyOrder() {
     const [orderData, setorderData] = useState({})
 
     const fetchMyOrder = async () => {
-        await fetch("http://localhost:8080/api/myOrderData", {
+        await fetch("https://food-delivery-api-zdvf.onrender.com/api/myOrderData", {
             // credentials: 'include',
             // Origin:"http://localhost:3000/login",
             method: 'POST',

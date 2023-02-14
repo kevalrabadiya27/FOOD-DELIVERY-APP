@@ -10,7 +10,7 @@ const Home = () => {
     const [search, setsearch] = useState("");
 
     const loaddata = async () => {
-        let response = await fetch("http://localhost:8080/api/foodData", {
+        let response = await fetch("https://food-delivery-api-zdvf.onrender.com/api/foodData", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
