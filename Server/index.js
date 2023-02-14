@@ -7,6 +7,7 @@ const port = process.env.PORT || 8080;
 const createuser = require('./routes/CreateUser')
 const loginuser = require('./routes/LoginUser');
 const DisplayData = require('./routes/DisplayData');
+const OrderData = require('./routes/OrderData');
 const cors = require('cors');
 
 // if not using cors package
@@ -25,7 +26,7 @@ app.use(express.json());
 app.use('/api', createuser);
 app.use('/api', loginuser);
 app.use('/api', DisplayData);
-
+app.use('/api', OrderData);
 
 const startserver = async () => {
     try {

@@ -1,6 +1,7 @@
 import React from 'react'
-import { Remove } from '@mui/icons-material'
+import { Delete } from '@mui/icons-material'
 import { useCart, useDispatchCart } from '../components/ContextReducer';
+import { toast } from 'react-toastify'
 
 export default function Cart() {
 
@@ -13,7 +14,25 @@ export default function Cart() {
             </div>
         )
     }
+    const handleCheckOut = async () => {
+        let userEmail = localStorage.getItem("userEmail");
+        let response = await fetch("http://localhost:8080/api/orderData", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                order_data: data,
+                email: userEmail,
+                order_date: new Date().toDateString()
+            })
+        });
+        if (response.status === 200) {
+            toast.success("Your Order Save in Database")
+            dispatch({ type: "DROP" })
+        }
 
+    }
     let totalPrice = data.reduce((total, food) => total + food.price, 0)
     return (
         <div>
@@ -34,16 +53,16 @@ export default function Cart() {
                             <tr>
                                 <th scope='row' >{index + 1}</th>
                                 <td >{food.name}</td>
-                                <td>{food.qty}</td>
+                                <td>{food.qtn}</td>
                                 <td>{food.size}</td>
                                 <td>{food.price}</td>
-                                <td ><button type="button" className="btn p-0"><Remove onClick={() => { dispatch({ type: "REMOVE", index: index }) }} /></button> </td></tr>
+                                <td ><button type="button" className="btn p-0"><Delete onClick={() => { dispatch({ type: "REMOVE", index: index }) }} /></button> </td></tr>
                         ))}
                     </tbody>
                 </table>
-                <div><h1 className='fs-2'>Total Price:/-</h1></div>
+                <div><h1 className='fs-2'>Total Price:/-{totalPrice}</h1></div>
                 <div>
-                    <button className='btn bg-success mt-5 ' > Check Out </button>
+                    <button className='btn bg-success mt-5 ' onClick={handleCheckOut} > Check Out </button>
                 </div>
             </div>
         </div>

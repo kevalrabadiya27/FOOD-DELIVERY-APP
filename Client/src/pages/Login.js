@@ -1,7 +1,9 @@
 import styled from "styled-components"
 import { mobile } from '../Responsive'
-import { json, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Container = styled.div`
   width: 100vw;
@@ -80,10 +82,12 @@ const Login = () => {
     });
     const ans = await response.json();
     if (!ans.sucess) {
-      alert("incorrect data")
+      toast.error("Login failed");
     }
     if (ans.sucess) {
+      localStorage.setItem("userEmail", credintial.email);
       localStorage.setItem("authToken", ans.authToken);
+      toast.success("Sucessfully login");
       navigate("/");
     }
   }

@@ -5,14 +5,17 @@ import { ShoppingCartOutlined, Logout } from '@mui/icons-material'
 import Modal from '../Modal';
 import Cart from '../pages/Cart';
 import { useCart } from './ContextReducer';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
     const [cartView, setCartView] = useState(false)
     localStorage.setItem('temp', "first");
 
     const navigate = useNavigate();
+
     const handleclick = () => {
         localStorage.removeItem("authToken");
+        toast.success("Sucessfully logout")
         navigate("/");
     }
     const items = useCart();
@@ -48,9 +51,12 @@ const Navbar = () => {
                                 </div> :
                                 <>
                                     <div className="btn bg-white text-success mx-2  fs-6 " onClick={loadCart}><ShoppingCartOutlined />
-                                        <Badge pill bg="danger">{items.length}</Badge>
+                                        {(
+                                            items.length == 0 ? "" :
+                                                <Badge pill bg="danger">{items.length}</Badge>
+                                        )}
                                     </div>
-                                    {cartView ? <Modal onClose={() => setCartView(false)}><Cart></Cart></Modal> : ""}
+                                    {cartView ? <Modal onClose={() => setCartView(false)}><Cart /></Modal> : ""}
                                     <div className="btn bg-white text-success mx-2  fs-6" onClick={handleclick}><Logout />Logout
                                     </div>
                                 </>

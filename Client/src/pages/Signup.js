@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components"
 import { mobile } from '../Responsive'
-
+import { toast } from 'react-toastify'
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -77,6 +77,8 @@ const Register = () => {
         if (!ans.sucess) {
             alert("incorrect data")
         } else {
+            localStorage.setItem("authToken", ans.authToken);
+            toast.success("Registation Sucessfully!")
             navigate("/");
         }
     }
