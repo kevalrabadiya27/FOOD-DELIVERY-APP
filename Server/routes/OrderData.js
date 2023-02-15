@@ -14,10 +14,10 @@ router.post('/orderData', async (req, res) => {
                 email: req.body.email,
                 order_data: [data]
             }).then(() => {
-                res.json({ success: true })
+                res.status(200).json({ success: true })
             })
         } catch (error) {
-            res.send("Server Error", error.message)
+            res.status(404).send("Server Error", error.message)
 
         }
     }
@@ -25,10 +25,10 @@ router.post('/orderData', async (req, res) => {
         try {
             await Order.findOneAndUpdate({ email: req.body.email },
                 { $push: { order_data: data } }).then(() => {
-                    res.json({ success: true })
+                    res.status(200).json({ success: true })
                 })
         } catch (error) {
-            res.send("Server Error", error.message)
+            res.status(404).send("Server Error", error.message)
         }
     }
 });
@@ -36,9 +36,9 @@ router.post('/orderData', async (req, res) => {
 router.post('/myOrderData', async (req, res) => {
     try {
         let eId = await Order.findOne({ 'email': req.body.email })
-        res.json({ orderData: eId })
+        res.status(200).json({ orderData: eId })
     } catch (error) {
-        res.send("Error", error.message)
+        res.status(404).send("Error", error.message)
     }
 
 

@@ -2,9 +2,11 @@ import React from 'react'
 import { Delete } from '@mui/icons-material'
 import { useCart, useDispatchCart } from '../components/ContextReducer';
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom';
+// import StripeCheckout from 'react-stripe-checkout'
 
 export default function Cart() {
-
+    const navigate = useNavigate();
     let data = useCart();
     let dispatch = useDispatchCart();
     if (data.length === 0) {
@@ -30,6 +32,7 @@ export default function Cart() {
         if (response.status === 200) {
             toast.success("Your Order Save in Database")
             dispatch({ type: "DROP" })
+            navigate('/myorder')
         }
 
     }
@@ -62,6 +65,17 @@ export default function Cart() {
                 </table>
                 <div><h1 className='fs-2'>Total Price:/-{totalPrice}</h1></div>
                 <div>
+                    {/* <StripeCheckout
+                        name="GoFood"
+                        image="https://avatars.githubusercontent.com/u/1486366?v=4"
+                        // billingAddress
+                        // shippingAddress
+                        description={`Your total is ${totalPrice}`}
+                        amount={totalPrice}
+                        stripeKey='pk_test_51M6DOuSILQCFtabDf7Y7sPHR1uXyeyBccih2k4EKl3SOCSlBcxQvjHqoqHBXsBaYYJqHKlTY7Ow8BI6HzI3GBHLE00iKxuW9cD'
+                    >
+                        <button className='btn bg-success mt-5'  >CHECKOUT NOW</button>
+                    </StripeCheckout> */}
                     <button className='btn bg-success mt-5 ' onClick={handleCheckOut} > Check Out </button>
                 </div>
             </div>
