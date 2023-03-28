@@ -3,7 +3,6 @@ import { Delete } from '@mui/icons-material'
 import { useCart, useDispatchCart } from '../components/ContextReducer';
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom';
-// import StripeCheckout from 'react-stripe-checkout'
 
 export default function Cart() {
     const navigate = useNavigate();
@@ -18,7 +17,7 @@ export default function Cart() {
     }
     const handleCheckOut = async () => {
         let userEmail = localStorage.getItem("userEmail");
-        let response = await fetch("https://food-delivery-api-zdvf.onrender.com/api/orderData", {
+        let response = await fetch("http://localhost:8080/api/orderData", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

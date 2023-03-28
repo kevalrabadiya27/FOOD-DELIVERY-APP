@@ -16,6 +16,7 @@ router.post('/orderData', async (req, res) => {
             }).then(() => {
                 res.status(200).json({ success: true })
             })
+
         } catch (error) {
             res.status(404).send("Server Error", error.message)
 
@@ -27,6 +28,7 @@ router.post('/orderData', async (req, res) => {
                 { $push: { order_data: data } }).then(() => {
                     res.status(200).json({ success: true })
                 })
+
         } catch (error) {
             res.status(404).send("Server Error", error.message)
         }
@@ -41,8 +43,8 @@ router.post('/myOrderData', async (req, res) => {
         res.status(404).send("Error", error.message)
     }
 
-
 });
+
 
 
 module.exports = router;

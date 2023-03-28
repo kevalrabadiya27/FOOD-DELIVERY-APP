@@ -1,3 +1,4 @@
+import { margin } from '@mui/system';
 import React, { useEffect, useState } from 'react'
 import Card from '../components/Card';
 import Footer from '../components/Footer';
@@ -8,21 +9,29 @@ const Home = () => {
     const [catFood, setcatFood] = useState([]);
     const [foodData, setfoodData] = useState([]);
     const [search, setsearch] = useState("");
+    const [loading, setloading] = useState(false);
 
     const loaddata = async () => {
-        let response = await fetch("https://food-delivery-api-zdvf.onrender.com/api/foodData", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        response = await response.json();
-        setfoodData(response[0])
-        setcatFood(response[1])
+        setloading(true);
+        try {
+            let response = await fetch("https://food-delivery-api-zdvf.onrender.com/api/foodData", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            response = await response.json();
+            setfoodData(response[0])
+            setcatFood(response[1])
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setloading(false);
+        }
     }
 
     useEffect(() => {
-        loaddata()
+        loaddata();
     }, [])
 
     return (
@@ -57,39 +66,42 @@ const Home = () => {
                     </button>
                 </div>
             </div>
+            {
+                loading ? <h2 style={{ marginLeft: "40%", marginTop: "20px" }}>loading....please wait</h2> :
+                    <div className='container m-3'>
+                        {
+                            catFood !== []
+                                ? catFood.map((data) => {
+                                    return (
+                                        <div className='row mb-3'>
+                                            <div key={data._id} className='fs-3 m-3'>{data.CategoryName}
+                                            </div>
+                                            <hr />
+                                            {
+                                                foodData !== []
+                                                    ?
+                                                    foodData.filter((item) => item.CategoryName === data.CategoryName && (item.name.toLowerCase().includes(search.toLowerCase()))).map((filterItems) => {
+                                                        return (
+                                                            <div key={filterItems._id} className='col-12 col-md-6 col-lg-3'>
+                                                                <Card
+                                                                    foodItem={filterItems}
+                                                                    // foodName={filterItems.name}
+                                                                    options={filterItems.options[0]}
+                                                                // Img={filterItems.img}
+                                                                />
+                                                            </div>
+                                                        )
+                                                    })
+                                                    : <div>No such data Found</div>
+                                            }
+                                        </div>
+                                    )
+                                })
+                                : ""
+                        }
+                    </div>
+            }
 
-            <div className='container m-3'>
-                {
-                    catFood !== []
-                        ? catFood.map((data) => {
-                            return (
-                                <div className='row mb-3'>
-                                    <div key={data._id} className='fs-3 m-3'>{data.CategoryName}
-                                    </div>
-                                    <hr />
-                                    {
-                                        foodData !== []
-                                            ?
-                                            foodData.filter((item) => item.CategoryName === data.CategoryName && (item.name.toLowerCase().includes(search.toLowerCase()))).map((filterItems) => {
-                                                return (
-                                                    <div key={filterItems._id} className='col-12 col-md-6 col-lg-3'>
-                                                        <Card
-                                                            foodItem={filterItems}
-                                                            // foodName={filterItems.name}
-                                                            options={filterItems.options[0]}
-                                                        // Img={filterItems.img}
-                                                        />
-                                                    </div>
-                                                )
-                                            })
-                                            : <div>No such data Found</div>
-                                    }
-                                </div>
-                            )
-                        })
-                        : ""
-                }
-            </div>
             <div><Footer /></div>
         </>
     )
