@@ -17,7 +17,7 @@ export default function Cart() {
     }
     const handleCheckOut = async () => {
         let userEmail = localStorage.getItem("userEmail");
-        let response = await fetch("http://localhost:8080/api/orderData", {
+        let response = await fetch("https://food-delivery-api-zdvf.onrender.com/api/orderData", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -28,6 +28,7 @@ export default function Cart() {
                 order_date: new Date().toDateString()
             })
         });
+        console.log(response);
         if (response.status === 200) {
             toast.success("Your Order Save in Database")
             dispatch({ type: "DROP" })
