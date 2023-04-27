@@ -13,7 +13,7 @@ function App() {
   return (
     <CartProvider>
       <BrowserRouter>
-        <ToastContainer />
+        <ToastContainer autoClose={1000} />
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
