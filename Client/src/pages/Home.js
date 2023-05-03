@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Card from '../components/Card';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar'
+import Loader from '../components/Loader';
 
 const Home = () => {
 
@@ -67,7 +68,7 @@ const Home = () => {
                 </div>
             </div>
             {
-                loading ? <h2 style={{ marginLeft: "40%", marginTop: "20px" }}>loading....please wait</h2> :
+                loading ? <Loader /> :
                     <div className='container m-3'>
                         {
                             catFood !== []

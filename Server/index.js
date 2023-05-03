@@ -2,14 +2,14 @@ const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv');
 const connectDB = require('./database/connection')
-const app = express();
-const port = process.env.PORT || 8080;
 const createuser = require('./routes/CreateUser')
 const loginuser = require('./routes/LoginUser');
 const DisplayData = require('./routes/DisplayData');
 const OrderData = require('./routes/OrderData');
 const cors = require('cors');
 
+const port = process.env.PORT || 8080;
+const app = express();
 // if not using cors package
 // app.use((req, res, next) => {
 //     res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080")
