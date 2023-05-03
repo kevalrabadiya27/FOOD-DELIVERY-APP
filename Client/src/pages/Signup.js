@@ -66,7 +66,7 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch("https://food-delivery-api-zdvf.onrender.com/api/createuser", {
+        const response = await fetch("https://food-delivery-api-9742.onrender.com/api/createuser", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

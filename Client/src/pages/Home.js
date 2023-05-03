@@ -15,7 +15,7 @@ const Home = () => {
     const loaddata = async () => {
         setloading(true);
         try {
-            let response = await fetch("https://food-delivery-api-zdvf.onrender.com/api/foodData", {
+            let response = await fetch("https://food-delivery-api-9742.onrender.com/api/foodData", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'

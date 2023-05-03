@@ -10,7 +10,7 @@ export default function MyOrder() {
 
     const fetchMyOrder = async () => {
         setisLoading(true)
-        await fetch("https://food-delivery-api-zdvf.onrender.com/api/myOrderData", {
+        await fetch("https://food-delivery-api-9742.onrender.com/api/myOrderData", {
             // credentials: 'include',
             // Origin:"http://localhost:3000/login",
             method: 'POST',
