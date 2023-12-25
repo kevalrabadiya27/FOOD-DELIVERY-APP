@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from '../components/Loader'
 
 const Container = styled.div`
   width: 100vw;
@@ -66,6 +67,7 @@ const Links = styled.a`
 `
 const Login = () => {
   let navigate = useNavigate();
+  const[isLoading,setisLoading] = useState(false)
   const [credintial, setcredintial] = useState({
     email: "",
     password: ""
@@ -73,14 +75,21 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("https://food-delivery-api-9742.onrender.com/api/loginuser", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email: credintial.email, password: credintial.password })
-    });
-    const ans = await response.json();
+    setisLoading(true)
+    try{
+      const response = await fetch("https://food-delivery-api-9742.onrender.com/api/loginuser", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: credintial.email, password: credintial.password })
+      });
+      var ans = await response.json();
+    }catch(e){
+      toast.error(e)
+    }finally{
+      setisLoading(false)
+    }
     if (!ans.sucess) {
       toast.error("Login failed");
     }
@@ -97,6 +106,8 @@ const Login = () => {
   }
   return (
     <Container>
+    {
+      isLoading?<Loader/>:
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form onSubmit={handleSubmit}>
@@ -110,6 +121,7 @@ const Login = () => {
           </Link>
         </Form>
       </Wrapper>
+    }
     </Container>
   )
 }

@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components"
 import { mobile } from '../Responsive'
 import { toast } from 'react-toastify'
+import Loader from '../components/Loader'
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -57,25 +59,33 @@ const Button = styled.button`
 
 const Register = () => {
     let navigate = useNavigate();
+    const[isloading,setisLoading] = useState(false)
     const [credintial, setcredintial] = useState({
         name: "",
         email: "",
         password: "",
-        location: ""
+        location: "IND"
     });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch("https://food-delivery-api-9742.onrender.com/api/createuser", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name: credintial.name, email: credintial.email, password: credintial.password, location: credintial.location })
-        });
-        const ans = await response.json()
+        setisLoading(true);
+        try{
+            var response = await fetch("https://food-delivery-api-9742.onrender.com/api/createuser", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: credintial.name, email: credintial.email, password: credintial.password, location: credintial.location })
+            });
+        var ans = await response.json()
+        }catch(e){
+            toast.error(e)
+        }finally{
+            setisLoading(false)
+        }
         if (!ans.sucess) {
-            alert("incorrect data")
+           toast.error("Enter valid details..")
         } else {
             localStorage.setItem("authToken", ans.authToken);
             toast.success("Registation Sucessfully!")
@@ -89,18 +99,21 @@ const Register = () => {
     return (
         <>
             <Container>
+            {
+                isloading?<Loader/>:
                 <Wrapper>
                     <Title>CREATE AN ACCOUNT</Title>
                     <Form onSubmit={handleSubmit}>
-                        <Input placeholder="name" name="name" value={credintial.name} onChange={handlechange} />
+                        <Input placeholder="name*" name="name" value={credintial.name} onChange={handlechange} />
                         <Input placeholder="Address" name="location" value={credintial.location} onChange={handlechange} />
-                        <Input placeholder="gmail" name="email" value={credintial.email} onChange={handlechange} />
-                        <Input placeholder="password" name="password" value={credintial.password} onChange={handlechange} />
+                        <Input placeholder="gmail*" name="email" value={credintial.email} onChange={handlechange} />
+                        <Input placeholder="password*" name="password" value={credintial.password} onChange={handlechange} />
                         <Agreement>By creating an account,I consent to the processing of my personal data in accordance the <b>PRIVACY POLICY</b></Agreement>
                         <Button>CREATE</Button>
                         <Link to='/login' className="m-3 btn btn-danger">Already Register user</Link>
                     </Form>
                 </Wrapper>
+            }
             </Container>
         </>
     )
